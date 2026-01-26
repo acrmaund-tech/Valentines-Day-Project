@@ -76,10 +76,41 @@ html, body {
         rgba(0,0,0,0.6)
     );
     pointer-events: none;
+}/* Back button */
+.back-btn {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top));
+    left: 16px;
+    z-index: 5;
+
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+
+    background: rgba(255,255,255,0.9);
+    color: #000;
+    font-weight: 600;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.back-btn:active {
+    transform: scale(0.96);
 }
 </style>
 </head>
-
+<script>
+function goBack() {
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+        window.location.href = "index.html"; // change if needed
+    }, 400);
+}
+</script>
 <body>
 
 <div class="collage">
@@ -93,5 +124,8 @@ html, body {
 
 <div class="vignette"></div>
 
-</body>
+</body> 
+    
+<button class="back-btn" onclick="goBack()">← Back</button>
 </html>
+

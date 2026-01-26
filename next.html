@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
-/* iOS text scaling fix */
 html {
     -webkit-text-size-adjust: 100%;
 }
@@ -23,19 +22,18 @@ html, body {
     transition: opacity 0.4s ease;
 }
 
-/* Grid collage */
+/* ---------- COLLAGE ---------- */
 .collage {
     position: fixed;
     inset: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 1fr;
     gap: 16px;
     padding: 20px;
     z-index: 0;
+    transition: transform 0.2s ease-out;
 }
 
-/* Photos */
 .photo {
     background-size: contain;
     background-position: center;
@@ -47,7 +45,6 @@ html, body {
     transform: rotate(var(--rot));
 }
 
-/* Images */
 .photo:nth-child(1) { background-image: url("photo1.JPG"); --rot: -4deg; }
 .photo:nth-child(2) { background-image: url("photo2.JPG"); --rot: 3deg; }
 .photo:nth-child(3) { background-image: url("photo3.JPG"); --rot: 5deg; }
@@ -55,7 +52,7 @@ html, body {
 .photo:nth-child(5) { background-image: url("photo5.JPG"); --rot: 2deg; }
 .photo:nth-child(6) { background-image: url("photo6.JPG"); --rot: -5deg; }
 
-/* Text box */
+/* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
     bottom: calc(20px + env(safe-area-inset-bottom));
@@ -66,7 +63,7 @@ html, body {
     width: calc(100vw - 32px);
     max-width: 340px;
 
-    padding: 12px 14px;
+    padding: 14px;
     border-radius: 14px;
 
     background: rgba(0,0,0,0.65);
@@ -75,28 +72,55 @@ html, body {
 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+
+    opacity: 0;
+    animation: textFade 1.4s ease forwards;
+}
+
+@keyframes textFade {
+    to { opacity: 1; }
 }
 
 .text p {
     font-size: 14px;
     line-height: 1.45;
-    margin: 0;
-    word-wrap: break-word;
+    margin: 0 0 12px;
 }
 
-/* Vignette */
-.vignette {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(
-        transparent 35%,
-        rgba(0,0,0,0.6)
-    );
-    pointer-events: none;
-    z-index: 2;
+/* ---------- BUTTONS ---------- */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 }
 
-/* Back button */
+button {
+    padding: 10px 22px;
+    font-size: 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.yes {
+    background: linear-gradient(135deg, #ffb6b6, #ffffff);
+    color: #6b0d0d;
+    animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.no {
+    background: rgba(255,255,255,0.9);
+    color: #000;
+    position: relative;
+}
+
+/* ---------- BACK BUTTON ---------- */
 .back-btn {
     position: fixed;
     top: calc(16px + env(safe-area-inset-top));
@@ -126,7 +150,7 @@ html, body {
 
 <button class="back-btn" onclick="goBack()">← Back</button>
 
-<div class="collage">
+<div class="collage" id="collage">
     <div class="photo"></div>
     <div class="photo"></div>
     <div class="photo"></div>
@@ -134,27 +158,57 @@ html, body {
     <div class="photo"></div>
     <div class="photo"></div>
 </div>
-
-<div class="vignette"></div>
 
 <div class="text">
     <p>
-        Hi baby, I’m sorry I’ve been so distant these past few weeks.
-        I’ve felt really stressed with everything, but you mean the
-        absolute world to me. I enjoy every moment with you — whether
-        it’s together or on call. You are so beautiful, and every time
-        I see you my heart folds. It’s been four months and none of my
-        feelings have changed. Will you be my Valentine?
+        Hi baby, I’m sorry I’ve been so distant lately. You mean the
+        absolute world to me, and I treasure every moment with you.
+        Will you be my Valentine?
     </p>
+
+    <div class="buttons">
+        <button class="yes" onclick="alert('💖 She said yes!')">Yes</button>
+        <button class="no" id="noBtn">No</button>
+    </div>
 </div>
 
 <script>
+/* Fade back */
 function goBack() {
     document.body.style.opacity = "0";
     setTimeout(() => {
         window.location.href =
         "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html";
     }, 400);
+}
+
+/* No button dodge */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", dodge);
+noBtn.addEventListener("touchstart", dodge);
+
+function dodge() {
+    const x = Math.random() * 120 - 60;
+    const y = Math.random() * 80 - 40;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+/* Parallax (iOS + desktop safe) */
+const collage = document.getElementById("collage");
+
+window.addEventListener("mousemove", e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 8;
+    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    collage.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+if (window.DeviceOrientationEvent) {
+    window.addEventListener("deviceorientation", e => {
+        if (e.gamma === null) return;
+        const x = e.gamma / 6;
+        const y = e.beta / 12;
+        collage.style.transform = `translate(${x}px, ${y}px)`;
+    });
 }
 </script>
 

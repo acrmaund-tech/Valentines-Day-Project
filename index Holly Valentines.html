@@ -58,26 +58,27 @@ html, body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: calc(24px + env(safe-area-inset-bottom));
+    bottom: calc(20px + env(safe-area-inset-bottom));
     text-align: center;
 
-    max-width: 85vw;
-    width: fit-content;
+    width: 90vw;
+    max-width: 360px;
 
-    padding: 16px 20px;
-    border-radius: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
     z-index: 2;
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    /* Safari-friendly blur */
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 200, 200, 0.25);
-    box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.45),
-        0 0 20px rgba(255, 180, 180, 0.35);
+    border: 1px solid rgba(255, 200, 200, 0.2);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.45),
+        0 0 14px rgba(255, 180, 180, 0.25);
 
-    animation: fadeIn 1.5s ease forwards;
+    animation: fadeIn 1.2s ease forwards;
 }
    
 /* Fade-in animation */
@@ -93,15 +94,17 @@ html, body {
 }
 
 h1 {
-    font-size: 26px;
-    max-width: 90vw;
-    margin-bottom: 15px;
+    font-size: clamp(16px, 4.5vw, 20px);
+    line-height: 1.35;
+    margin: 0 0 12px;
+}
+    
 }
 
 /* Button */
 button {
-    padding: 14px 34px;
-    font-size: 18px;
+    padding: 10px 22px;
+    font-size: 15px;
     border: none;
     border-radius: 999px;
     cursor: pointer;
@@ -187,6 +190,7 @@ for (let i = 0; i < 20; i++) {
 
 </body>
 </html>
+
 
 
 

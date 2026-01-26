@@ -131,7 +131,16 @@ button:active {
     to {
         transform: translateY(-120svh) scale(1.2);
         opacity: 0;
-    }
+    }/* Page fade-out transition */
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+body {
+    opacity: 1;
+    transition: opacity 0.8s ease;
+}
 }
 </style>
 </head>
@@ -185,3 +194,4 @@ for (let i = 0; i < heartCount; i++) {
 
 </body>
 </html>
+

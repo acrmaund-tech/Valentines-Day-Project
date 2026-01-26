@@ -15,6 +15,7 @@ html, body {
     background: #0b0b0b;
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
+    transition: opacity 0.4s ease;
 }
 
 /* Grid collage container */
@@ -28,7 +29,7 @@ html, body {
     padding: 20px;
 }
 
-/* Photos (fit inside borders) */
+/* Photos */
 .photo {
     background-size: contain;
     background-position: center;
@@ -41,42 +42,50 @@ html, body {
     transform: rotate(var(--rot));
 }
 
-/* Individual images + rotation */
-.photo:nth-child(1) {
-    background-image: url("photo1.JPG");
-    --rot: -4deg;
-}
-.photo:nth-child(2) {
-    background-image: url("photo2.JPG");
-    --rot: 3deg;
-}
-.photo:nth-child(3) {
-    background-image: url("photo3.JPG");
-    --rot: 5deg;
-}
-.photo:nth-child(4) {
-    background-image: url("photo4.JPG");
-    --rot: -3deg;
-}
-.photo:nth-child(5) {
-    background-image: url("photo5.JPG");
-    --rot: 2deg;
-}
-.photo:nth-child(6) {
-    background-image: url("photo6.JPG");
-    --rot: -5deg;
+/* Images */
+.photo:nth-child(1) { background-image: url("photo1.JPG"); --rot: -4deg; }
+.photo:nth-child(2) { background-image: url("photo2.JPG"); --rot: 3deg; }
+.photo:nth-child(3) { background-image: url("photo3.JPG"); --rot: 5deg; }
+.photo:nth-child(4) { background-image: url("photo4.JPG"); --rot: -3deg; }
+.photo:nth-child(5) { background-image: url("photo5.JPG"); --rot: 2deg; }
+.photo:nth-child(6) { background-image: url("photo6.JPG"); --rot: -5deg; }
+
+/* Text box */
+.text {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+
+    max-width: 90vw;
+    padding: 14px 18px;
+    border-radius: 14px;
+
+    background: rgba(0,0,0,0.6);
+    color: white;
+    text-align: center;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-/* Soft vignette */
+.text h1 {
+    font-size: clamp(14px, 4vw, 18px);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Vignette */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(
-        transparent 35%,
-        rgba(0,0,0,0.6)
-    );
+    background: radial-gradient(transparent 35%, rgba(0,0,0,0.6));
     pointer-events: none;
-}/* Back button */
+    z-index: 2;
+}
+
+/* Back button */
 .back-btn {
     position: fixed;
     top: calc(16px + env(safe-area-inset-top));
@@ -94,8 +103,6 @@ html, body {
     font-weight: 600;
 
     box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
 }
 
 .back-btn:active {
@@ -103,15 +110,10 @@ html, body {
 }
 </style>
 </head>
-<script>
-function goBack() {
-    document.body.style.opacity = "0";
-    setTimeout(() => {
-        window.location.href = "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html"; // change if needed
-    }, 400);
-}
-</script>
+
 <body>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
 
 <div class="collage">
     <div class="photo"></div>
@@ -123,17 +125,24 @@ function goBack() {
 </div>
 
 <div class="vignette"></div>
+
 <div class="text">
     <h1>
-        Hi Baby im sorry ive been so distant these past few weeks ive felt so stressed out with everything,
-        you mean the absolute world to me and i cant even imagine what my life would be without you. I enjoy every moment whether its with you or on call with you i enjoy every second. 
-        You are so beautiful and every time i get a glance at you my heart folds its been 4 months and yet none of my feelings have changed for you will you be m valentine?
+        Hi baby. I’m sorry I’ve been so distant these past few weeks.  
+        You mean the absolute world to me, and I can’t imagine life without you.  
+        Will you be my Valentine?
     </h1>
-</body> 
-    
-<button class="back-btn" onclick="goBack()">← Back</button>
+</div>
+
+<script>
+function goBack() {
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+        window.location.href =
+        "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html";
+    }, 400);
+}
+</script>
+
+</body>
 </html>
-
-
-
-

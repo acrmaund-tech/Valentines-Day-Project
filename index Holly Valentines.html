@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- iOS viewport fix -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>I love you SO MUCH</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100svh;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow: hidden;
+    background-color: black;
+}
+
+/* Slideshow */
+.slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+}
+
+.slideshow img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: black;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.slideshow img.active {
+    opacity: 1;
+}
+
+/* Dark romantic overlay */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        rgba(110, 21, 21, 0.6),
+        rgba(110, 21, 21, 0.9)
+    );
+    z-index: -2;
+}
+
+/* Text container */
+.text {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(40px + env(safe-area-inset-bottom));
+    text-align: center;
+    padding: 22px 26px;
+    border-radius: 16px;
+
+    /* iOS blur support */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    background-color: rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 30px rgba(255, 180, 180, 0.3);
+    animation: fadeIn 2s ease forwards;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+h1 {
+    font-size: 26px; /* better for phones */
+    max-width: 90vw;
+    margin-bottom: 15px;
+}
+
+/* Button */
+button {
+    padding: 14px 34px;
+    font-size: 18px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ffb6b6, #ffffff);
+    color: rgb(107, 13, 13);
+    font-weight: bold;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    color: rgba(255, 180, 180, 0.8);
+    font-size: 20px;
+    animation: floatUp linear infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120svh) scale(1.4);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="slideshow">
+    <img src="photo1.JPG" class="active">
+    <img src="photo2.JPG">
+    <img src="photo3.JPG">
+    <img src="photo4.JPG">
+    <img src="photo5.JPG">
+    <img src="photo6.JPG">
+</div>
+
+<div class="overlay"></div>
+
+<div class="text">
+    <h1>
+        I know ive already asked this but it didnt feel special enough sooooo click the button
+    </h1>
+
+    <a href="https://www.youtube.com/watch?v=vY2xUc4TVmY" target="_blank">
+        <button>Click me</button>
+    </a>
+</div>
+
+<script>
+/* Slideshow */
+const slides = document.querySelectorAll(".slideshow img");
+let index = 0;
+
+setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+}, 5000);
+
+/* Floating hearts */
+for (let i = 0; i < 20; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 6 + Math.random() * 6 + "s";
+    heart.style.fontSize = 14 + Math.random() * 18 + "px";
+    document.body.appendChild(heart);
+}
+</script>
+
+</body>
+</html>

@@ -8,6 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
+/* iOS text scaling fix */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -18,7 +23,7 @@ html, body {
     transition: opacity 0.4s ease;
 }
 
-/* Grid collage container */
+/* Grid collage */
 .collage {
     position: fixed;
     inset: 0;
@@ -27,6 +32,7 @@ html, body {
     grid-auto-rows: 1fr;
     gap: 16px;
     padding: 20px;
+    z-index: 0;
 }
 
 /* Photos */
@@ -35,7 +41,6 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     background-color: #000;
-
     border: 6px solid white;
     border-radius: 6px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.6);
@@ -53,16 +58,18 @@ html, body {
 /* Text box */
 .text {
     position: fixed;
-    bottom: calc(24px + env(safe-area-inset-bottom));
+    bottom: calc(20px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
     z-index: 4;
 
-    max-width: 90vw;
-    padding: 14px 18px;
+    width: calc(100vw - 32px);
+    max-width: 340px;
+
+    padding: 12px 14px;
     border-radius: 14px;
 
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.65);
     color: white;
     text-align: center;
 
@@ -70,17 +77,21 @@ html, body {
     -webkit-backdrop-filter: blur(8px);
 }
 
-.text h1 {
-    font-size: clamp(14px, 4vw, 18px);
-    line-height: 1.4;
+.text p {
+    font-size: 14px;
+    line-height: 1.45;
     margin: 0;
+    word-wrap: break-word;
 }
 
 /* Vignette */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(transparent 35%, rgba(0,0,0,0.6));
+    background: radial-gradient(
+        transparent 35%,
+        rgba(0,0,0,0.6)
+    );
     pointer-events: none;
     z-index: 2;
 }
@@ -127,9 +138,14 @@ html, body {
 <div class="vignette"></div>
 
 <div class="text">
-    <h1>
-        Hi Baby im sorry ive been so distant these past few weeks ive felt so stressed out with everything, you mean the absolute world to me and i cant even imagine what my life would be without you. I enjoy every moment whether its with you or on call with you i enjoy every second. You are so beautiful and every time i get a glance at you my heart folds its been 4 months and yet none of my feelings have changed for you will you be m valentine?
-    </h1>
+    <p>
+        Hi baby, I’m sorry I’ve been so distant these past few weeks.
+        I’ve felt really stressed with everything, but you mean the
+        absolute world to me. I enjoy every moment with you — whether
+        it’s together or on call. You are so beautiful, and every time
+        I see you my heart folds. It’s been four months and none of my
+        feelings have changed. Will you be my Valentine?
+    </p>
 </div>
 
 <script>
@@ -144,4 +160,3 @@ function goBack() {
 
 </body>
 </html>
-

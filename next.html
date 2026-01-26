@@ -17,8 +17,8 @@ html, body {
     padding: 0;
     min-height: 100svh;
     background: #0b0b0b;
-    overflow: hidden;
     font-family: 'Poppins', sans-serif;
+    overflow: hidden;
     transition: opacity 0.4s ease;
 }
 
@@ -30,6 +30,7 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     padding: 20px;
+    padding-bottom: 120px; /* prevents text overlap */
     z-index: 0;
     transition: transform 0.2s ease-out;
 }
@@ -55,15 +56,15 @@ html, body {
 /* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
-    bottom: calc(20px + env(safe-area-inset-bottom));
+    bottom: calc(12px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
     z-index: 4;
 
     width: calc(100vw - 32px);
-    max-width: 340px;
+    max-width: 320px;
 
-    padding: 14px;
+    padding: 12px;
     border-radius: 14px;
 
     background: rgba(0,0,0,0.65);
@@ -82,9 +83,18 @@ html, body {
 }
 
 .text p {
-    font-size: 14px;
-    line-height: 1.45;
-    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0 0 10px;
+}
+
+/* ---------- NO MESSAGE ---------- */
+.no-message {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #ffb6b6;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 /* ---------- BUTTONS ---------- */
@@ -95,7 +105,7 @@ html, body {
 }
 
 button {
-    padding: 10px 22px;
+    padding: 9px 20px;
     font-size: 14px;
     border-radius: 999px;
     border: none;
@@ -139,10 +149,6 @@ button {
 
     box-shadow: 0 6px 18px rgba(0,0,0,0.4);
 }
-
-.back-btn:active {
-    transform: scale(0.96);
-}
 </style>
 </head>
 
@@ -161,19 +167,23 @@ button {
 
 <div class="text">
     <p>
-        Hi baby, I’m sorry I’ve been so distant lately. You mean the
-        absolute world to me, and I treasure every moment with you.
+        Hi baby, I’m sorry I’ve been so distant lately.
+        You mean the absolute world to me.
         Will you be my Valentine?
     </p>
 
     <div class="buttons">
-        <button class="yes" onclick="alert('💖 She said yes!')">Yes</button>
+        <button class="yes" onclick="yesClick()">Yes</button>
         <button class="no" id="noBtn">No</button>
+    </div>
+
+    <div class="no-message" id="noMessage">
+        you’re not allowed to say no buddy 😈
     </div>
 </div>
 
 <script>
-/* Fade back */
+/* Back */
 function goBack() {
     document.body.style.opacity = "0";
     setTimeout(() => {
@@ -182,32 +192,43 @@ function goBack() {
     }, 400);
 }
 
-/* No button dodge */
-const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", dodge);
-noBtn.addEventListener("touchstart", dodge);
+/* Yes button haptic */
+function yesClick() {
+    if (navigator.vibrate) navigator.vibrate(40);
+    alert("💖 She said yes!");
+}
 
-function dodge() {
+/* No button dodge + message + haptic */
+const noBtn = document.getElementById("noBtn");
+const noMsg = document.getElementById("noMessage");
+
+function dodgeNo() {
+    if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
+
     const x = Math.random() * 120 - 60;
     const y = Math.random() * 80 - 40;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    noMsg.style.opacity = "1";
 }
 
-/* Parallax (iOS + desktop safe) */
+noBtn.addEventListener("mouseover", dodgeNo);
+noBtn.addEventListener("touchstart", dodgeNo);
+
+/* Parallax */
 const collage = document.getElementById("collage");
 
 window.addEventListener("mousemove", e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 8;
-    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    const x = (e.clientX / window.innerWidth - 0.5) * 6;
+    const y = (e.clientY / window.innerHeight - 0.5) * 6;
     collage.style.transform = `translate(${x}px, ${y}px)`;
 });
 
 if (window.DeviceOrientationEvent) {
     window.addEventListener("deviceorientation", e => {
         if (e.gamma === null) return;
-        const x = e.gamma / 6;
-        const y = e.beta / 12;
-        collage.style.transform = `translate(${x}px, ${y}px)`;
+        collage.style.transform =
+            `translate(${e.gamma / 6}px, ${e.beta / 12}px)`;
     });
 }
 </script>

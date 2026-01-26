@@ -1,12 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Question...</title>
-</head>
-<body>
-    
-</body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Question...</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100svh;
+    font-family: 'Poppins', sans-serif;
+    background: #0b0b0b;
+    overflow: hidden;
+}
+
+/* Collage container */
+.collage {
+    position: fixed;
+    inset: 0;
+    padding: 20px;
+}
+
+/* Individual photos */
+.photo {
+    position: absolute;
+    width: 42vw;
+    max-width: 220px;
+    aspect-ratio: 3 / 4;
+    background-size: cover;
+    background-position: center;
+
+    border: 6px solid white;
+    border-radius: 6px;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.6);
+
+    transform: rotate(var(--rot));
+}
+
+/* Photo placements */
+.photo:nth-child(1) {
+    top: 8%;
+    left: 6%;
+    --rot: -6deg;
+    background-image: url("photo1.JPG");
+}
+
+.photo:nth-child(2) {
+    top: 18%;
+    right: 8%;
+    --rot: 5deg;
+    background-image: url("photo2.JPG");
+}
+
+.photo:nth-child(3) {
+    bottom: 22%;
+    left: 12%;
+    --rot: 4deg;
+    background-image: url("photo3.JPG");
+}
+
+.photo:nth-child(4) {
+    bottom: 10%;
+    right: 10%;
+    --rot: -5deg;
+    background-image: url("photo4.JPG");
+}
+
+.photo:nth-child(5) {
+    top: 42%;
+    left: 32%;
+    --rot: -2deg;
+    background-image: url("photo5.JPG");
+}
+
+.photo:nth-child(6) {
+    top: 52%;
+    right: 30%;
+    --rot: 3deg;
+    background-image: url("photo6.JPG");
+}
+
+/* Optional soft dark layer for readability */
+.vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        transparent 30%,
+        rgba(0,0,0,0.6)
+    );
+    pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="collage">
+    <div class="photo"></div>
+    <div class="photo"></div>
+    <div class="photo"></div>
+    <div class="photo"></div>
+    <div class="photo"></div>
+    <div class="photo"></div>
+</div>
+
+<div class="vignette"></div>
+
+</body>
 </html>

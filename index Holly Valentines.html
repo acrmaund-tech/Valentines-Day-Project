@@ -40,18 +40,7 @@ html, body {
 }
 
 .slideshow img.active {
-    opacity: 0.3;
-}
-
-/* Overlay */
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(
-        rgba(110, 21, 21, 0.35),
-        rgba(110, 21, 21, 0.6)
-    );
-    z-index: 1;
+    opacity: 0.4;
 }
 
 /* Text container */
@@ -73,10 +62,9 @@ html, body {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 
-    border: 1px solid rgba(255, 200, 200, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.45),
-        0 0 14px rgba(255, 180, 180, 0.25);
+        0 8px 24px rgba(0, 0, 0, 0.45);
 
     animation: fadeIn 1.2s ease forwards;
 }
@@ -159,14 +147,11 @@ button:active {
     <img src="photo6.JPG">
 </div>
 
-<div class="overlay"></div>
-
 <div class="text">
     <h1>
         I know ive already asked this but it didnt feel special enough sooooo click the button
     </h1>
 
-    <!-- LINK TO ANOTHER HTML FILE -->
     <a href="next.html">
         <button>Click me</button>
     </a>

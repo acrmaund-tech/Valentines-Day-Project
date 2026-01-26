@@ -122,22 +122,30 @@ button:active {
 /* Floating hearts */
 .heart {
     position: fixed;
-    bottom: -20px;
-    color: rgba(255, 180, 180, 0.8);
+    bottom: -30px;
+    color: rgba(255, 170, 170, 0.9); /* clearer */
     animation: floatUp linear infinite;
-    z-index: 3; /* FIXED */
+    z-index: 0; /* behind overlay + text */
     pointer-events: none;
+
+    text-shadow:
+        0 0 6px rgba(255, 180, 180, 0.8),
+        0 0 12px rgba(255, 120, 120, 0.6);
 }
 
 @keyframes floatUp {
     from {
-        transform: translateY(0) scale(1);
+        transform: translateY(0) scale(0.9);
+        opacity: 0;
+    }
+    10% {
         opacity: 1;
     }
     to {
-        transform: translateY(-120svh) scale(1.4);
+        transform: translateY(-120svh) scale(1.2);
         opacity: 0;
     }
+}
 }
 </style>
 </head>
@@ -190,6 +198,7 @@ for (let i = 0; i < 20; i++) {
 
 </body>
 </html>
+
 
 
 

@@ -58,18 +58,26 @@ html, body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: calc(40px + env(safe-area-inset-bottom));
+    bottom: calc(24px + env(safe-area-inset-bottom));
     text-align: center;
-    padding: 22px 26px;
-    border-radius: 16px;
-    z-index: 2; /* FIXED */
 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    max-width: 85vw;
+    width: fit-content;
 
-    background-color: rgba(0, 0, 0, 0.35);
-    box-shadow: 0 0 30px rgba(255, 180, 180, 0.3);
-    animation: fadeIn 2s ease forwards;
+    padding: 16px 20px;
+    border-radius: 14px;
+    z-index: 2;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 200, 200, 0.25);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        0 0 20px rgba(255, 180, 180, 0.35);
+
+    animation: fadeIn 1.5s ease forwards;
 }
 
 /* Fade-in animation */
@@ -179,4 +187,5 @@ for (let i = 0; i < 20; i++) {
 
 </body>
 </html>
+
 

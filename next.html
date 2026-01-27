@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
+html { -webkit-text-size-adjust: 100%; }
+
 html, body {
     margin: 0;
     padding: 0;
@@ -24,159 +26,174 @@ html, body {
     inset: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-    padding: 18px;
-    z-index: 1;
+    gap: 16px;
+    padding: 20px;
+    padding-bottom: 160px; /* space for text */
+    z-index: 0;
 }
 
 .photo {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: black;
-
-    border: 5px solid white;
+    background-color: #000;
+    border: 6px solid white;
     border-radius: 6px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
     transform: rotate(var(--rot));
 }
 
-/* Images */
-.photo:nth-child(1){background-image:url("photo1.JPG");--rot:-4deg}
-.photo:nth-child(2){background-image:url("photo2.JPG");--rot:3deg}
-.photo:nth-child(3){background-image:url("photo3.JPG");--rot:4deg}
-.photo:nth-child(4){background-image:url("photo4.JPG");--rot:-3deg}
-.photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg}
-.photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg}
+.photo:nth-child(1){background-image:url("photo1.JPG");--rot:-4deg;}
+.photo:nth-child(2){background-image:url("photo2.JPG");--rot:3deg;}
+.photo:nth-child(3){background-image:url("photo3.JPG");--rot:5deg;}
+.photo:nth-child(4){background-image:url("photo4.JPG");--rot:-3deg;}
+.photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg;}
+.photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg;}
 
 /* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(12px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
-    width: 92vw;
-    max-width: 360px;
-    padding: 14px 16px;
+    z-index: 4;
+
+    width: calc(100vw - 32px);
+    max-width: 320px;
+
+    padding: 12px;
     border-radius: 14px;
     background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     color: white;
     text-align: center;
-    z-index: 5;
-    animation: fadeIn 1.2s ease forwards;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    opacity: 0;
+    animation: fadeIn 1.4s ease forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, 10px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
-}
+@keyframes fadeIn { to { opacity: 1; } }
 
-.text h1 {
-    font-size: clamp(14px, 4vw, 17px);
+.text p {
+    font-size: 13px;
     line-height: 1.4;
-    margin-bottom: 12px;
+    margin: 0 0 10px;
 }
 
 /* ---------- BUTTONS ---------- */
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 14px;
+    gap: 12px;
 }
 
 button {
-    padding: 10px 22px;
+    padding: 9px 20px;
+    font-size: 14px;
     border-radius: 999px;
     border: none;
-    font-size: 14px;
-    font-weight: bold;
     cursor: pointer;
+    font-weight: 600;
 }
 
-#yesBtn {
-    background: linear-gradient(135deg, #ffb6b6, white);
+.yes {
+    background: linear-gradient(135deg, #ffb6b6, #ffffff);
     color: #6b0d0d;
+    animation: pulse 1.6s infinite;
 }
 
-#noBtn {
-    background: rgba(255,255,255,0.85);
+@keyframes pulse {
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
 }
 
-/* ---------- NO TEXT ---------- */
+.no {
+    background: rgba(255,255,255,0.9);
+    color: #000;
+}
+
+/* ---------- NO MESSAGE ---------- */
 .no-text {
     position: fixed;
-    bottom: 100px;
+    bottom: 110px;
     width: 100%;
     text-align: center;
-    color: #ffb6b6;
     font-size: 14px;
+    color: #ffb6b6;
     opacity: 0;
     transition: opacity 0.3s ease;
-    z-index: 6;
 }
+
 .no-text.show { opacity: 1; }
-
-/* ---------- ZOOM ---------- */
-.zoom {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-
-.zoom-image {
-    width: 90vw;
-    height: 90svh;
-    max-width: 500px;
-    max-height: 80svh;
-
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: black;
-
-    border: 8px solid white;
-    border-radius: 10px;
-}
-
-/* ---------- SECRET MSG ---------- */
-.secret {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-    background: rgba(0,0,0,0.85);
-    color: white;
-    font-size: 18px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 1000;
-}
-.secret.show {
-    opacity: 1;
-    pointer-events: auto;
-}
 
 /* ---------- BACK BUTTON ---------- */
 .back-btn {
     position: fixed;
-    top: calc(14px + env(safe-area-inset-top));
-    left: 14px;
-    z-index: 10;
-    padding: 8px 14px;
+    top: calc(16px + env(safe-area-inset-top));
+    left: 16px;
+    z-index: 6;
+    padding: 8px 16px;
     border-radius: 999px;
-    border: none;
     background: rgba(255,255,255,0.9);
-    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    font-weight: 600;
+}
+
+/* ---------- IMAGE ZOOM ---------- */
+.zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.zoom-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.zoom-image {
+    width: 90vw;
+    height: 80svh;
+    max-width: 500px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 8px solid white;
+    border-radius: 10px;
+    background-color: black;
+}
+
+/* ---------- SECRET ---------- */
+.secret-msg {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.secret-msg.show {
+    opacity: 1;
+    pointer-events: auto;
 }
 </style>
 </head>
@@ -195,18 +212,25 @@ button {
 </div>
 
 <div class="text">
-    <h1>
-        Hi baby, I know I’ve been distant lately… but I love you more than anything.
-        You make my world brighter every single day. Will you be my Valentine?
-    </h1>
+    <p>
+        Hi baby, I’m sorry I’ve been distant lately.
+        You mean the absolute world to me.
+        Will you be my Valentine?
+    </p>
+
     <div class="buttons">
-        <button id="yesBtn">Yes 💖</button>
-        <button id="noBtn">No</button>
+        <button class="yes" onclick="yesClick()">Yes</button>
+        <button class="no" id="noBtn">No</button>
     </div>
 </div>
 
-<div id="noText" class="no-text">you’re not allowed to say no buddy 😈</div>
-<div id="secret" class="secret"></div>
+<div class="no-text" id="noText">you’re not allowed to say no buddy 😈</div>
+
+<div class="zoom-overlay" id="zoomOverlay">
+    <div class="zoom-image" id="zoomImage"></div>
+</div>
+
+<div class="secret-msg" id="secret"></div>
 
 <form id="yesForm"
       action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
@@ -217,62 +241,53 @@ button {
 <iframe name="hidden_iframe" style="display:none"></iframe>
 
 <script>
-const vibrate = ms => navigator.vibrate && navigator.vibrate(ms || 20);
+const vibrate = ms => navigator.vibrate?.(ms);
 
-/* BACK */
-function goBack(){
-    document.body.style.opacity = 0;
-    setTimeout(()=>location.href="index.html",400);
-}
-
-/* ZOOM + SECRETS */
-document.querySelectorAll(".photo").forEach(photo=>{
-    let press;
-    photo.addEventListener("click",()=>{
-        const z=document.createElement("div");
-        z.className="zoom";
-        const img=document.createElement("div");
-        img.className="zoom-image";
-        img.style.backgroundImage=getComputedStyle(photo).backgroundImage;
-        z.appendChild(img);
-        z.onclick=()=>z.remove();
-        document.body.appendChild(z);
+/* IMAGE ZOOM */
+document.querySelectorAll(".photo").forEach(photo => {
+    photo.addEventListener("click", () => {
+        document.getElementById("zoomImage").style.backgroundImage =
+            getComputedStyle(photo).backgroundImage;
+        document.getElementById("zoomOverlay").classList.add("active");
+        vibrate(15);
     });
+});
 
-    photo.addEventListener("touchstart",()=>{
-        press=setTimeout(()=>{
-            vibrate(40);
-            showSecret("You found a secret 😈");
-        },800);
-    });
-    photo.addEventListener("touchend",()=>clearTimeout(press));
+document.getElementById("zoomOverlay").addEventListener("click", () => {
+    document.getElementById("zoomOverlay").classList.remove("active");
 });
 
 /* NO BUTTON */
-const noBtn=document.getElementById("noBtn");
-const noText=document.getElementById("noText");
-noBtn.addEventListener("touchstart",dodge);
-noBtn.addEventListener("mouseenter",dodge);
+const noBtn = document.getElementById("noBtn");
+const noText = document.getElementById("noText");
 
-function dodge(){
+noBtn.addEventListener("touchstart", dodge);
+noBtn.addEventListener("mouseenter", dodge);
+
+function dodge() {
     vibrate(30);
-    noBtn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*80-40}px)`;
+    noBtn.style.transform =
+        `translate(${Math.random()*100-50}px, ${Math.random()*60-30}px)`;
     noText.classList.add("show");
-    setTimeout(()=>noText.classList.remove("show"),1500);
+    setTimeout(() => noText.classList.remove("show"), 1500);
 }
 
-/* YES */
-document.getElementById("yesBtn").onclick=()=>{
+/* YES BUTTON */
+function yesClick() {
     vibrate(50);
     document.getElementById("yesForm").submit();
-    showSecret("You just made me the happiest person alive ❤️");
-};
+    const secret = document.getElementById("secret");
+    secret.textContent = "You just made me the happiest person alive ❤️";
+    secret.classList.add("show");
+}
 
-function showSecret(msg){
-    const s=document.getElementById("secret");
-    s.textContent=msg;
-    s.classList.add("show");
-    setTimeout(()=>s.classList.remove("show"),2500);
+/* BACK */
+function goBack() {
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+        window.location.href =
+        "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html";
+    }, 400);
 }
 </script>
 

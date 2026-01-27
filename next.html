@@ -8,10 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
 html, body {
     margin: 0;
     padding: 0;
@@ -28,242 +24,168 @@ html, body {
     inset: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 20px;
-    padding-bottom: 120px;
-    z-index: 0;
-    transition: transform 0.2s ease-out;
+    gap: 14px;
+    padding: 18px;
+    z-index: 1;
 }
 
 .photo {
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #000;
-    border: 6px solid white;
+    background-color: black;
+
+    border: 5px solid white;
     border-radius: 6px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.6);
     transform: rotate(var(--rot));
 }
 
-.photo:nth-child(1) { background-image: url("photo1.JPG"); --rot: -4deg; }
-.photo:nth-child(2) { background-image: url("photo2.JPG"); --rot: 3deg; }
-.photo:nth-child(3) { background-image: url("photo3.JPG"); --rot: 5deg; }
-.photo:nth-child(4) { background-image: url("photo4.JPG"); --rot: -3deg; }
-.photo:nth-child(5) { background-image: url("photo5.JPG"); --rot: 2deg; }
-.photo:nth-child(6) { background-image: url("photo6.JPG"); --rot: -5deg; }
+/* Images */
+.photo:nth-child(1){background-image:url("photo1.JPG");--rot:-4deg}
+.photo:nth-child(2){background-image:url("photo2.JPG");--rot:3deg}
+.photo:nth-child(3){background-image:url("photo3.JPG");--rot:4deg}
+.photo:nth-child(4){background-image:url("photo4.JPG");--rot:-3deg}
+.photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg}
+.photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg}
 
 /* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
-    bottom: calc(12px + env(safe-area-inset-bottom));
+    bottom: calc(16px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 4;
-
-    width: calc(100vw - 32px);
-    max-width: 320px;
-
-    padding: 12px;
+    width: 92vw;
+    max-width: 360px;
+    padding: 14px 16px;
     border-radius: 14px;
-
     background: rgba(0,0,0,0.65);
-    color: white;
-    text-align: center;
-
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
-    opacity: 0;
-    animation: textFade 1.4s ease forwards;
+    color: white;
+    text-align: center;
+    z-index: 5;
+    animation: fadeIn 1.2s ease forwards;
 }
 
-@keyframes textFade {
-    to { opacity: 1; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
 
-.text p {
-    font-size: 13px;
+.text h1 {
+    font-size: clamp(14px, 4vw, 17px);
     line-height: 1.4;
-    margin: 0 0 10px;
-}
-
-/* ---------- NO MESSAGE ---------- */
-.no-message {
-    font-size: 13px;
-    margin-top: 8px;
-    color: #ffb6b6;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    margin-bottom: 12px;
 }
 
 /* ---------- BUTTONS ---------- */
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 button {
-    padding: 9px 20px;
-    font-size: 14px;
+    padding: 10px 22px;
     border-radius: 999px;
     border: none;
+    font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 600;
 }
 
-.yes {
-    background: linear-gradient(135deg, #ffb6b6, #ffffff);
+#yesBtn {
+    background: linear-gradient(135deg, #ffb6b6, white);
     color: #6b0d0d;
-    animation: pulse 1.6s infinite;
 }
 
-@keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+#noBtn {
+    background: rgba(255,255,255,0.85);
 }
 
-.no {
-    background: rgba(255,255,255,0.9);
-    color: #000;
-    position: relative;
-}
-
-/* ---------- BACK BUTTON ---------- */
-.back-btn {
+/* ---------- NO TEXT ---------- */
+.no-text {
     position: fixed;
-    top: calc(16px + env(safe-area-inset-top));
-    left: 16px;
-    z-index: 5;
-
-    padding: 8px 16px;
+    bottom: 100px;
+    width: 100%;
+    text-align: center;
+    color: #ffb6b6;
     font-size: 14px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 6;
+}
+.no-text.show { opacity: 1; }
 
-    background: rgba(255,255,255,0.9);
-    color: #000;
-    font-weight: 600;
-
-    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-}/* ---------- IMAGE ZOOM OVERLAY ---------- */
-.zoom-overlay {
+/* ---------- ZOOM ---------- */
+.zoom {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.zoom-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
+    z-index: 999;
 }
 
 .zoom-image {
     width: 90vw;
     height: 90svh;
-
     max-width: 500px;
     max-height: 80svh;
 
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-
     background-color: black;
 
     border: 8px solid white;
     border-radius: 10px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
 
-    animation: zoomIn 0.3s ease;
-
-
-@keyframes zoomIn {
-    from {
-        transform: scale(0.85);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}/* ===== SECRET UI ===== */
-
-.secret-msg {
+/* ---------- SECRET MSG ---------- */
+.secret {
     position: fixed;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+    padding: 20px;
     background: rgba(0,0,0,0.85);
     color: white;
     font-size: 18px;
-    text-align: center;
-    padding: 20px;
-    z-index: 999;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
+    z-index: 1000;
 }
-
-.secret-msg.show {
+.secret.show {
     opacity: 1;
     pointer-events: auto;
 }
 
-.night {
-    filter: brightness(0.85) contrast(1.1);
-}
-
-.nope {
-    position: relative;
-    transition: transform 0.15s ease;
-}
-
-.no-text {
+/* ---------- BACK BUTTON ---------- */
+.back-btn {
     position: fixed;
-    bottom: 90px;
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    color: #ffb6b6;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.no-text.show {
-    opacity: 1;
+    top: calc(14px + env(safe-area-inset-top));
+    left: 14px;
+    z-index: 10;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    font-weight: bold;
 }
 </style>
 </head>
-<div class="zoom-overlay" id="zoomOverlay">
-    <div class="zoom-image" id="zoomImage"></div>
-</div>
-<div id="secret" class="secret-msg"></div>
-<div id="noText" class="no-text">you’re not allowed to say no buddy 😈</div>
 
-<form id="yesForm" 
-      action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
-      method="POST"
-      target="hidden_iframe">
-    <input type="hidden" name="entry.734142649" value="YES">
-</form>
-
-<iframe name="hidden_iframe" style="display:none"></iframe>
 <body>
 
 <button class="back-btn" onclick="goBack()">← Back</button>
 
-<div class="collage" id="collage">
+<div class="collage">
     <div class="photo"></div>
     <div class="photo"></div>
     <div class="photo"></div>
@@ -273,123 +195,86 @@ button {
 </div>
 
 <div class="text">
-    <p>
-        Hi baby, I’m sorry I’ve been so distant lately.
-        You mean the absolute world to me.
-        Will you be my Valentine?
-    </p>
-
+    <h1>
+        Hi baby, I know I’ve been distant lately… but I love you more than anything.
+        You make my world brighter every single day. Will you be my Valentine?
+    </h1>
     <div class="buttons">
-        <button class="yes" onclick="yesClick()">Yes</button>
-        <button class="no" id="noBtn">No</button>
-    </div>
-
-    <div class="no-message" id="noMessage">
-        you’re not allowed to say no buddy 😈
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No</button>
     </div>
 </div>
 
+<div id="noText" class="no-text">you’re not allowed to say no buddy 😈</div>
+<div id="secret" class="secret"></div>
+
+<form id="yesForm"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
+      method="POST"
+      target="hidden_iframe">
+    <input type="hidden" name="entry.734142649" value="YES">
+</form>
+<iframe name="hidden_iframe" style="display:none"></iframe>
+
 <script>
-<script>
-/* ========== HELPERS ========== */
-const vibrate = (ms = 20) => navigator.vibrate?.(ms);
-const secret = document.getElementById("secret");
+const vibrate = ms => navigator.vibrate && navigator.vibrate(ms || 20);
 
-/* ========== IMAGE SECRETS ========== */
-let tapCount = 0;
-let tapTimer;
-
-document.querySelectorAll(".photo").forEach((photo, i) => {
-
-    // Triple tap
-    photo.addEventListener("click", () => {
-        tapCount++;
-        clearTimeout(tapTimer);
-        tapTimer = setTimeout(() => tapCount = 0, 400);
-
-        if (tapCount === 3) {
-            vibrate();
-            secret.innerHTML = "I love you more than you know 💞";
-            secret.classList.add("show");
-            setTimeout(() => secret.classList.remove("show"), 2500);
-            tapCount = 0;
-        }
-    });
-
-    // Long press
-    let pressTimer;
-    photo.addEventListener("touchstart", () => {
-        pressTimer = setTimeout(() => {
-            vibrate(50);
-            secret.innerHTML = "You found a secret 😈";
-            secret.classList.add("show");
-        }, 900);
-    });
-
-    photo.addEventListener("touchend", () => {
-        clearTimeout(pressTimer);
-        setTimeout(() => secret.classList.remove("show"), 2000);
-    });
-
-    // Special photo (1st image)
-    if (i === 0) {
-        photo.dataset.special = "true";
-    }
-});
-
-/* ========== NIGHT MODE (DOUBLE TAP BG) ========== */
-let lastTap = 0;
-document.body.addEventListener("click", e => {
-    if (!e.target.classList.contains("photo")) {
-        const now = Date.now();
-        if (now - lastTap < 300) {
-            document.body.classList.toggle("night");
-            vibrate();
-        }
-        lastTap = now;
-    }
-});
-
-/* ========== NO BUTTON TROLL ========== */
-const noBtn = document.getElementById("noBtn");
-const noText = document.getElementById("noText");
-
-if (noBtn) {
-    noBtn.addEventListener("mouseenter", dodge);
-    noBtn.addEventListener("touchstart", dodge);
-
-    function dodge() {
-        vibrate(30);
-        noBtn.style.transform =
-            `translate(${Math.random()*120-60}px, ${Math.random()*80-40}px)`;
-        noText.classList.add("show");
-        setTimeout(() => noText.classList.remove("show"), 1500);
-    }
+/* BACK */
+function goBack(){
+    document.body.style.opacity = 0;
+    setTimeout(()=>location.href="index.html",400);
 }
 
-/* ========== YES BUTTON ========== */
-const yesBtn = document.getElementById("yesBtn");
-let konami = [];
-const sequence = ["left","right","left","right","yes"];
+/* ZOOM + SECRETS */
+document.querySelectorAll(".photo").forEach(photo=>{
+    let press;
+    photo.addEventListener("click",()=>{
+        const z=document.createElement("div");
+        z.className="zoom";
+        const img=document.createElement("div");
+        img.className="zoom-image";
+        img.style.backgroundImage=getComputedStyle(photo).backgroundImage;
+        z.appendChild(img);
+        z.onclick=()=>z.remove();
+        document.body.appendChild(z);
+    });
 
-yesBtn?.addEventListener("click", () => {
-    vibrate(40);
+    photo.addEventListener("touchstart",()=>{
+        press=setTimeout(()=>{
+            vibrate(40);
+            showSecret("You found a secret 😈");
+        },800);
+    });
+    photo.addEventListener("touchend",()=>clearTimeout(press));
+});
+
+/* NO BUTTON */
+const noBtn=document.getElementById("noBtn");
+const noText=document.getElementById("noText");
+noBtn.addEventListener("touchstart",dodge);
+noBtn.addEventListener("mouseenter",dodge);
+
+function dodge(){
+    vibrate(30);
+    noBtn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*80-40}px)`;
+    noText.classList.add("show");
+    setTimeout(()=>noText.classList.remove("show"),1500);
+}
+
+/* YES */
+document.getElementById("yesBtn").onclick=()=>{
+    vibrate(50);
     document.getElementById("yesForm").submit();
+    showSecret("You just made me the happiest person alive ❤️");
+};
 
-    secret.innerHTML = "You just made me the happiest person alive ❤️";
-    setTimeout(() => secret.classList.add("show"), 800);
-});
-
-/* Konami unlock */
-["left","right","left","right"].forEach(dir => konami.push(dir));
-if (konami.join() === sequence.join()) {
-    secret.innerHTML = "Secret unlocked 🧬";
-    secret.classList.add("show");
+function showSecret(msg){
+    const s=document.getElementById("secret");
+    s.textContent=msg;
+    s.classList.add("show");
+    setTimeout(()=>s.classList.remove("show"),2500);
 }
-</script>
 </script>
 
 </body>
 </html>
-
-

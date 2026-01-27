@@ -30,7 +30,7 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     padding: 20px;
-    padding-bottom: 120px; /* prevents text overlap */
+    padding-bottom: 120px;
     z-index: 0;
     transition: transform 0.2s ease-out;
 }
@@ -192,9 +192,20 @@ function goBack() {
     }, 400);
 }
 
-/* Yes button haptic */
+/* Yes button: submit to Google Forms + haptic */
 function yesClick() {
-    if (navigator.vibrate) navigator.vibrate(40);
+    if (navigator.vibrate) navigator.vibrate(60);
+
+    fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "entry.734142649=YES"
+    });
+
     alert("💖 She said yes!");
 }
 

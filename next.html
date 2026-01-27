@@ -189,7 +189,6 @@ button {
         opacity: 1;
     }
 }
-
 </style>
 </head>
 <div class="zoom-overlay" id="zoomOverlay">
@@ -227,7 +226,6 @@ button {
 
 <script>
 /* Back */
-<script>
 function goBack() {
     document.body.style.opacity = "0";
     setTimeout(() => {
@@ -236,7 +234,56 @@ function goBack() {
     }, 400);
 }
 
-/* ---------- IMAGE ZOOM ---------- */
+/* Yes button: submit to Google Forms + haptic */
+function yesClick() {
+    if (navigator.vibrate) navigator.vibrate(60);
+
+    fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "entry.734142649=YES"
+    });
+
+    alert("💖 She said yes!");
+}
+
+/* No button dodge + message + haptic */
+const noBtn = document.getElementById("noBtn");
+const noMsg = document.getElementById("noMessage");
+
+function dodgeNo() {
+    if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
+
+    const x = Math.random() * 120 - 60;
+    const y = Math.random() * 80 - 40;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    noMsg.style.opacity = "1";
+}
+
+noBtn.addEventListener("mouseover", dodgeNo);
+noBtn.addEventListener("touchstart", dodgeNo);
+
+/* Parallax */
+const collage = document.getElementById("collage");
+
+window.addEventListener("mousemove", e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 6;
+    const y = (e.clientY / window.innerHeight - 0.5) * 6;
+    collage.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+if (window.DeviceOrientationEvent) {
+    window.addEventListener("deviceorientation", e => {
+        if (e.gamma === null) return;
+        collage.style.transform =
+            `translate(${e.gamma / 6}px, ${e.beta / 12}px)`;
+    });
+}/* Image zoom */
 const overlay = document.getElementById("zoomOverlay");
 const zoomImg = document.getElementById("zoomImage");
 const photos = document.querySelectorAll(".photo");
@@ -247,7 +294,6 @@ photos.forEach(photo => {
         zoomImg.style.backgroundImage = bg;
         overlay.classList.add("active");
 
-        // iOS haptic feedback (safe)
         if (navigator.vibrate) navigator.vibrate(30);
     });
 });
@@ -257,7 +303,5 @@ overlay.addEventListener("click", () => {
 });
 </script>
 
-
 </body>
 </html>
-

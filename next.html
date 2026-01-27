@@ -149,15 +149,20 @@ button {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    pointer-events: none;   /* ✅ IMPORTANT */
+    pointer-events: none;
     transition: opacity 0.3s;
     z-index: 30;
+
+    color: #ffb6c1;          /* 🌸 baby pink */
+    font-size: 20px;         /* optional: slightly bigger */
+    text-align: center;
+    padding: 24px;
 }
 
 .secret-msg.show {
     opacity: 1;
-    pointer-events: auto;   /* ✅ clickable ONLY when visible */
-}
+    color: #ffb6c1; /* baby pink */
+} 
 </style>
 </head>
 
@@ -258,3 +263,4 @@ yesBtn.addEventListener("click", () => {
 
 </body>
 </html>
+

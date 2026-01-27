@@ -189,47 +189,72 @@ method="POST" target="hidden_iframe">
 <iframe name="hidden_iframe" style="display:none"></iframe>
 
 <script>
-const vibrate = ms => navigator.vibrate?.(ms);
+document.addEventListener("DOMContentLoaded", () => {
 
-const textBox = document.getElementById("textBox");
-const zoomOverlay = document.getElementById("zoomOverlay");
-const zoomImage = document.getElementById("zoomImage");
-const noBtn = document.getElementById("noBtn");
-const noText = document.getElementById("noText");
-const secret = document.getElementById("secret");
+    const vibrate = ms => navigator.vibrate?.(ms);
 
-textBox.onclick = () => textBox.classList.add("expanded");
+    const textBox = document.getElementById("textBox");
+    const zoomOverlay = document.getElementById("zoomOverlay");
+    const zoomImage = document.getElementById("zoomImage");
+    const noBtn = document.getElementById("noBtn");
+    const noText = document.getElementById("noText");
+    const secret = document.getElementById("secret");
+    const yesForm = document.getElementById("yesForm");
 
-document.querySelectorAll(".photo").forEach(p => {
-    p.onclick = () => {
-        zoomImage.style.backgroundImage = getComputedStyle(p).backgroundImage;
-        zoomOverlay.classList.add("active");
-        vibrate(15);
+    /* TEXT EXPAND */
+    textBox.addEventListener("click", () => {
+        textBox.classList.add("expanded");
+    });
+
+    /* IMAGE ZOOM */
+    document.querySelectorAll(".photo").forEach(photo => {
+        photo.addEventListener("click", () => {
+            zoomImage.style.backgroundImage =
+                getComputedStyle(photo).backgroundImage;
+            zoomOverlay.classList.add("active");
+            vibrate(15);
+        });
+    });
+
+    zoomOverlay.addEventListener("click", () => {
+        zoomOverlay.classList.remove("active");
+    });
+
+    /* NO BUTTON DODGE */
+    function dodge() {
+        vibrate(30);
+        noBtn.style.transform =
+            `translate(${Math.random()*80-40}px, ${Math.random()*60-30}px)`;
+        noText.classList.add("show");
+        setTimeout(() => noText.classList.remove("show"), 1500);
+    }
+
+    noBtn.addEventListener("mouseenter", dodge);
+    noBtn.addEventListener("touchstart", dodge);
+
+    /* YES BUTTON */
+    window.yesClick = function () {
+        vibrate(50);
+        yesForm.submit();
+
+        secret.textContent = "You just made me the happiest person alive ❤️";
+        secret.classList.add("show");
+
+        setTimeout(() => {
+            secret.classList.remove("show");
+        }, 5000);
+
+        setTimeout(() => {
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = "next2.html";
+            }, 400);
+        }, 5500);
     };
+
 });
-
-zoomOverlay.onclick = () => zoomOverlay.classList.remove("active");
-
-noBtn.onmouseenter = noBtn.ontouchstart = () => {
-    vibrate(30);
-    noBtn.style.transform = `translate(${Math.random()*80-40}px,${Math.random()*60-30}px)`;
-    noText.classList.add("show");
-    setTimeout(()=>noText.classList.remove("show"),1500);
-};
-
-function yesClick(){
-    vibrate(50);
-    yesForm.submit();
-    secret.textContent = "You just made me the happiest person alive ❤️";
-    secret.classList.add("show");
-
-    setTimeout(()=>secret.classList.remove("show"),5000);
-    setTimeout(()=>{
-        document.body.style.opacity="0";
-        setTimeout(()=>location.href="next2.html",400);
-    },5500);
-}
 </script>
 
 </body>
 </html>
+

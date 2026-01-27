@@ -8,8 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
-html { -webkit-text-size-adjust: 100%; }
-
 html, body {
     margin: 0;
     padding: 0;
@@ -17,10 +15,9 @@ html, body {
     background: #0b0b0b;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
-    transition: opacity 0.4s ease;
 }
 
-/* ---------- COLLAGE ---------- */
+/* -------- COLLAGE -------- */
 .collage {
     position: fixed;
     inset: 0;
@@ -29,12 +26,10 @@ html, body {
     gap: 16px;
     padding: 20px;
     padding-bottom: 160px;
-    z-index: 0;
-    pointer-events: none;
+    z-index: 1;
 }
 
 .photo {
-    pointer-events: auto;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -43,6 +38,7 @@ html, body {
     border-radius: 6px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.6);
     transform: rotate(var(--rot));
+    cursor: pointer;
 }
 
 .photo:nth-child(1){background-image:url("photo1.JPG");--rot:-4deg;}
@@ -52,38 +48,34 @@ html, body {
 .photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg;}
 .photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg;}
 
-/* ---------- TEXT BOX ---------- */
+/* -------- TEXT BOX -------- */
 .text {
     position: fixed;
-    bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: calc(10px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
     width: calc(100vw - 32px);
-    max-width: 300px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: rgba(0,0,0,0.65);
+    max-width: 320px;
+    padding: 12px;
+    border-radius: 14px;
+    background: rgba(0,0,0,0.7);
     color: white;
     text-align: center;
     backdrop-filter: blur(8px);
-    max-height: 90px;
+    max-height: 95px;
     overflow: hidden;
     transition: max-height 0.5s ease;
-    animation: fadeIn 1.4s forwards;
     z-index: 10;
 }
 
-.text.expanded { max-height: 220px; }
-
-@keyframes fadeIn { to { opacity: 1; } }
+.text.expanded { max-height: 240px; }
 
 .text p {
-    font-size: 12px;
-    line-height: 1.3;
-    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-/* ---------- BUTTONS ---------- */
+/* -------- BUTTONS -------- */
 .buttons {
     display: flex;
     gap: 12px;
@@ -91,11 +83,10 @@ html, body {
 }
 
 button {
-    padding: 9px 20px;
+    padding: 10px 22px;
     border-radius: 999px;
     border: none;
     font-weight: 600;
-    cursor: pointer;
 }
 
 .yes {
@@ -103,27 +94,25 @@ button {
     animation: pulse 1.6s infinite;
 }
 
-@keyframes pulse {
-    50% { transform: scale(1.05); }
-}
+@keyframes pulse { 50% { transform: scale(1.05); } }
 
-.no { background: #fff; }
+.no { background: white; }
 
-/* ---------- NO MESSAGE ---------- */
+/* -------- NO MESSAGE -------- */
 .no-text {
     position: fixed;
-    bottom: 120px;
+    bottom: 130px;
     width: 100%;
     text-align: center;
     color: #ffb6b6;
     opacity: 0;
     transition: opacity 0.3s;
-    z-index: 10;
+    z-index: 15;
 }
 
 .no-text.show { opacity: 1; }
 
-/* ---------- IMAGE ZOOM ---------- */
+/* -------- IMAGE ZOOM -------- */
 .zoom-overlay {
     position: fixed;
     inset: 0;
@@ -151,7 +140,7 @@ button {
     border: 8px solid white;
 }
 
-/* ---------- SECRET ---------- */
+/* -------- SECRET -------- */
 .secret-msg {
     position: fixed;
     inset: 0;
@@ -160,11 +149,15 @@ button {
     align-items: center;
     justify-content: center;
     opacity: 0;
+    pointer-events: none;   /* ✅ IMPORTANT */
     transition: opacity 0.3s;
     z-index: 30;
 }
 
-.secret-msg.show { opacity: 1; }
+.secret-msg.show {
+    opacity: 1;
+    pointer-events: auto;   /* ✅ clickable ONLY when visible */
+}
 </style>
 </head>
 
@@ -189,9 +182,11 @@ button {
 </div>
 
 <div class="no-text" id="noText">you’re not allowed to say no buddy 😈</div>
+
 <div class="zoom-overlay" id="zoomOverlay">
     <div class="zoom-image" id="zoomImage"></div>
 </div>
+
 <div class="secret-msg" id="secret"></div>
 
 <form id="yesForm"
@@ -202,70 +197,62 @@ method="POST" target="hidden_iframe">
 <iframe name="hidden_iframe" style="display:none"></iframe>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+const vibrate = ms => navigator.vibrate?.(ms);
 
-    const vibrate = ms => navigator.vibrate?.(ms);
+const textBox = document.getElementById("textBox");
+const zoomOverlay = document.getElementById("zoomOverlay");
+const zoomImage = document.getElementById("zoomImage");
+const noBtn = document.getElementById("noBtn");
+const noText = document.getElementById("noText");
+const secret = document.getElementById("secret");
+const yesForm = document.getElementById("yesForm");
+const yesBtn = document.getElementById("yesBtn");
 
-    const textBox = document.getElementById("textBox");
-    const zoomOverlay = document.getElementById("zoomOverlay");
-    const zoomImage = document.getElementById("zoomImage");
-    const noBtn = document.getElementById("noBtn");
-    const noText = document.getElementById("noText");
-    const secret = document.getElementById("secret");
-    const yesForm = document.getElementById("yesForm");
-    const yesBtn = document.getElementById("yesBtn");
+/* TEXT EXPAND */
+textBox.addEventListener("click", () => {
+    textBox.classList.add("expanded");
+});
 
-    /* TEXT EXPAND */
-    textBox.addEventListener("click", () => {
-        textBox.classList.add("expanded");
+/* IMAGE ZOOM */
+document.querySelectorAll(".photo").forEach(photo => {
+    photo.addEventListener("click", () => {
+        zoomImage.style.backgroundImage =
+            getComputedStyle(photo).backgroundImage;
+        zoomOverlay.classList.add("active");
+        vibrate(15);
     });
+});
 
-    /* IMAGE ZOOM */
-    document.querySelectorAll(".photo").forEach(photo => {
-        photo.addEventListener("click", () => {
-            zoomImage.style.backgroundImage =
-                getComputedStyle(photo).backgroundImage;
-            zoomOverlay.classList.add("active");
-            vibrate(15);
-        });
-    });
+zoomOverlay.addEventListener("click", () => {
+    zoomOverlay.classList.remove("active");
+});
 
-    zoomOverlay.addEventListener("click", () => {
-        zoomOverlay.classList.remove("active");
-    });
+/* NO BUTTON */
+function dodge() {
+    vibrate(30);
+    noBtn.style.transform =
+        `translate(${Math.random()*80-40}px, ${Math.random()*60-30}px)`;
+    noText.classList.add("show");
+    setTimeout(() => noText.classList.remove("show"), 1500);
+}
 
-    /* NO BUTTON */
-    function dodge() {
-        vibrate(30);
-        noBtn.style.transform =
-            `translate(${Math.random()*80-40}px, ${Math.random()*60-30}px)`;
-        noText.classList.add("show");
-        setTimeout(() => noText.classList.remove("show"), 1500);
-    }
+noBtn.addEventListener("mouseenter", dodge);
+noBtn.addEventListener("touchstart", dodge);
 
-    noBtn.addEventListener("mouseenter", dodge);
-    noBtn.addEventListener("touchstart", dodge);
+/* YES BUTTON */
+yesBtn.addEventListener("click", () => {
+    vibrate(50);
+    yesForm.submit();
 
-    /* YES BUTTON */
-    yesBtn.addEventListener("click", () => {
-        vibrate(50);
-        yesForm.submit();
+    secret.textContent = "You just made me the happiest person alive ❤️";
+    secret.classList.add("show");
 
-        secret.textContent = "You just made me the happiest person alive ❤️";
-        secret.classList.add("show");
+    setTimeout(() => secret.classList.remove("show"), 5000);
 
-        setTimeout(() => {
-            secret.classList.remove("show");
-        }, 5000);
-
-        setTimeout(() => {
-            document.body.style.opacity = "0";
-            setTimeout(() => {
-                window.location.href = "next2.html";
-            }, 400);
-        }, 5500);
-    });
-
+    setTimeout(() => {
+        document.body.style.opacity = "0";
+        setTimeout(() => location.href = "next2.html", 400);
+    }, 5500);
 });
 </script>
 

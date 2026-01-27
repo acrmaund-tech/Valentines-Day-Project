@@ -17,7 +17,6 @@ html, body {
     background: #0b0b0b;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
-    transition: opacity 0.4s ease;
 }
 
 /* ---------- COLLAGE ---------- */
@@ -28,8 +27,8 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     padding: 20px;
-    padding-bottom: 160px; /* ensures bottom images visible */
-    z-index: 0;
+    padding-bottom: 160px;
+    transition: transform 0.2s ease-out;
 }
 
 .photo {
@@ -53,16 +52,16 @@ html, body {
 /* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
-    bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: calc(10px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 4;
+    z-index: 5;
 
     width: calc(100vw - 32px);
     max-width: 300px;
 
-    padding: 10px 12px;
-    border-radius: 12px;
+    padding: 10px;
+    border-radius: 14px;
 
     background: rgba(0,0,0,0.65);
     color: white;
@@ -71,24 +70,23 @@ html, body {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 
-    max-height: 90px;              /* collapsed height */
+    max-height: 60px;
     overflow: hidden;
-    transition: max-height 0.5s ease;
+    cursor: pointer;
 
-    opacity: 0;
-    animation: fadeIn 1.4s ease forwards;
+    transition: max-height 0.4s ease, padding 0.4s ease;
 }
 
+/* expanded on tap */
 .text.expanded {
-    max-height: 220px;             /* expanded after tap */
+    max-height: 300px;
+    padding: 14px;
 }
-
-@keyframes fadeIn { to { opacity: 1; } }
 
 .text p {
-    font-size: 12px;
-    line-height: 1.3;
-    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0 0 10px;
 }
 
 /* ---------- BUTTONS ---------- */
@@ -114,8 +112,8 @@ button {
 }
 
 @keyframes pulse {
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.05);}
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.05)}
 }
 
 .no {
@@ -123,81 +121,36 @@ button {
     color: #000;
 }
 
-/* ---------- NO MESSAGE ---------- */
+/* ---------- NO TEXT ---------- */
 .no-text {
     position: fixed;
-    bottom: 120px;
+    bottom: 110px;
     width: 100%;
     text-align: center;
     font-size: 14px;
     color: #ffb6b6;
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 6;
 }
 
 .no-text.show { opacity: 1; }
 
-/* ---------- BACK BUTTON ---------- */
-.back-btn {
-    position: fixed;
-    top: calc(16px + env(safe-area-inset-top));
-    left: 16px;
-    z-index: 6;
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.9);
-    font-size: 14px;
-    border: none;
-    font-weight: 600;
-}
-
-/* ---------- IMAGE ZOOM ---------- */
-.zoom-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.zoom-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.zoom-image {
-    width: 90vw;
-    height: 80svh;
-    max-width: 500px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 8px solid white;
-    border-radius: 10px;
-    background-color: black;
-}
-
-/* ---------- SECRET ---------- */
+/* ---------- SECRET MESSAGE ---------- */
 .secret-msg {
     position: fixed;
     inset: 0;
+    background: rgba(0,0,0,0.85);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.85);
-    color: white;
-    font-size: 18px;
     text-align: center;
     padding: 20px;
-    z-index: 20;
+    z-index: 999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
 }
 
 .secret-msg.show {
@@ -209,7 +162,15 @@ button {
 
 <body>
 
-<button class="back-btn" onclick="goBack()">← Back</button>
+<div id="secret" class="secret-msg"></div>
+<div id="noText" class="no-text">you’re not allowed to say no buddy 😈</div>
+
+<form id="yesForm"
+action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
+method="POST" target="hidden_iframe">
+<input type="hidden" name="entry.734142649" value="YES">
+</form>
+<iframe name="hidden_iframe" style="display:none"></iframe>
 
 <div class="collage">
     <div class="photo"></div>
@@ -228,81 +189,45 @@ button {
     </p>
 
     <div class="buttons">
-        <button class="yes" onclick="yesClick()">Yes</button>
+        <button class="yes" id="yesBtn" onclick="yesClick()">Yes</button>
         <button class="no" id="noBtn">No</button>
     </div>
 </div>
 
-<div class="no-text" id="noText">you’re not allowed to say no buddy 😈</div>
-
-<div class="zoom-overlay" id="zoomOverlay">
-    <div class="zoom-image" id="zoomImage"></div>
-</div>
-
-<div class="secret-msg" id="secret"></div>
-
-<form id="yesForm"
-      action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
-      method="POST"
-      target="hidden_iframe">
-    <input type="hidden" name="entry.734142649" value="YES">
-</form>
-<iframe name="hidden_iframe" style="display:none"></iframe>
-
 <script>
-const vibrate = ms => navigator.vibrate?.(ms);
+const vibrate = (ms=30)=>navigator.vibrate?.(ms);
 
-/* TEXT AUTO-EXPAND ON TAP */
-const textBox = document.getElementById("textBox");
-textBox.addEventListener("click", () => {
-    textBox.classList.add("expanded");
+/* expand text box on tap */
+document.getElementById("textBox").addEventListener("click",()=>{
+    document.getElementById("textBox").classList.add("expanded");
 });
 
-/* IMAGE ZOOM */
-document.querySelectorAll(".photo").forEach(photo => {
-    photo.addEventListener("click", () => {
-        document.getElementById("zoomImage").style.backgroundImage =
-            getComputedStyle(photo).backgroundImage;
-        document.getElementById("zoomOverlay").classList.add("active");
-        vibrate(15);
-    });
-});
-
-document.getElementById("zoomOverlay").addEventListener("click", () => {
-    document.getElementById("zoomOverlay").classList.remove("active");
-});
-
-/* NO BUTTON */
+/* NO button dodge */
 const noBtn = document.getElementById("noBtn");
 const noText = document.getElementById("noText");
 
-function dodge() {
-    vibrate(30);
+noBtn.addEventListener("mouseenter",dodge);
+noBtn.addEventListener("touchstart",dodge);
+
+function dodge(){
+    vibrate();
     noBtn.style.transform =
-        `translate(${Math.random()*100-50}px, ${Math.random()*60-30}px)`;
+        `translate(${Math.random()*120-60}px,${Math.random()*80-40}px)`;
     noText.classList.add("show");
-    setTimeout(() => noText.classList.remove("show"), 1500);
+    setTimeout(()=>noText.classList.remove("show"),1500);
 }
 
-noBtn.addEventListener("mouseenter", dodge);
-noBtn.addEventListener("touchstart", dodge);
-
-/* YES BUTTON */
-function yesClick() {
+/* YES click */
+function yesClick(){
     vibrate(50);
     document.getElementById("yesForm").submit();
+
     const secret = document.getElementById("secret");
     secret.textContent = "You just made me the happiest person alive ❤️";
     secret.classList.add("show");
-}
 
-/* BACK */
-function goBack() {
-    document.body.style.opacity = "0";
-    setTimeout(() => {
-        window.location.href =
-        "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html";
-    }, 400);
+    setTimeout(()=>secret.classList.remove("show"),5000);
+    setTimeout(()=>window.location.href="next.html",5500);
 }
 </script>
 

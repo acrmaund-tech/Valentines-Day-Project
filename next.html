@@ -168,16 +168,24 @@ button {
 }
 
 .zoom-image {
-    max-width: 92vw;
-    max-height: 92svh;
+    width: 90vw;
+    height: 90svh;
+
+    max-width: 500px;
+    max-height: 80svh;
+
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+
+    background-color: black;
+
     border: 8px solid white;
     border-radius: 10px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+
     animation: zoomIn 0.3s ease;
-}
+
 
 @keyframes zoomIn {
     from {
@@ -305,3 +313,4 @@ overlay.addEventListener("click", () => {
 
 </body>
 </html>
+

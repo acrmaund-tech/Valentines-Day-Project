@@ -148,10 +148,53 @@ button {
     font-weight: 600;
 
     box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}/* ---------- IMAGE ZOOM OVERLAY ---------- */
+.zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
+
+.zoom-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.zoom-image {
+    max-width: 92vw;
+    max-height: 92svh;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 8px solid white;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 </style>
 </head>
-
+<div class="zoom-overlay" id="zoomOverlay">
+    <div class="zoom-image" id="zoomImage"></div>
+</div>
 <body>
 
 <button class="back-btn" onclick="goBack()">← Back</button>
@@ -184,6 +227,7 @@ button {
 
 <script>
 /* Back */
+<script>
 function goBack() {
     document.body.style.opacity = "0";
     setTimeout(() => {
@@ -192,57 +236,28 @@ function goBack() {
     }, 400);
 }
 
-/* Yes button: submit to Google Forms + haptic */
-function yesClick() {
-    if (navigator.vibrate) navigator.vibrate(60);
+/* ---------- IMAGE ZOOM ---------- */
+const overlay = document.getElementById("zoomOverlay");
+const zoomImg = document.getElementById("zoomImage");
+const photos = document.querySelectorAll(".photo");
 
-    fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: "entry.734142649=YES"
+photos.forEach(photo => {
+    photo.addEventListener("click", () => {
+        const bg = getComputedStyle(photo).backgroundImage;
+        zoomImg.style.backgroundImage = bg;
+        overlay.classList.add("active");
+
+        // iOS haptic feedback (safe)
+        if (navigator.vibrate) navigator.vibrate(30);
     });
-
-    alert("💖 She said yes!");
-}
-
-/* No button dodge + message + haptic */
-const noBtn = document.getElementById("noBtn");
-const noMsg = document.getElementById("noMessage");
-
-function dodgeNo() {
-    if (navigator.vibrate) navigator.vibrate([20, 30, 20]);
-
-    const x = Math.random() * 120 - 60;
-    const y = Math.random() * 80 - 40;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
-    noMsg.style.opacity = "1";
-}
-
-noBtn.addEventListener("mouseover", dodgeNo);
-noBtn.addEventListener("touchstart", dodgeNo);
-
-/* Parallax */
-const collage = document.getElementById("collage");
-
-window.addEventListener("mousemove", e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 6;
-    const y = (e.clientY / window.innerHeight - 0.5) * 6;
-    collage.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-if (window.DeviceOrientationEvent) {
-    window.addEventListener("deviceorientation", e => {
-        if (e.gamma === null) return;
-        collage.style.transform =
-            `translate(${e.gamma / 6}px, ${e.beta / 12}px)`;
-    });
-}
+overlay.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
 </script>
+
 
 </body>
 </html>
+

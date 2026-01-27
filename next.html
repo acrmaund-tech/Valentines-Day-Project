@@ -288,23 +288,31 @@ noBtn.addEventListener("mouseenter", dodge);
 noBtn.addEventListener("touchstart", dodge);
 
 /* YES BUTTON */
+<script>
 function yesClick() {
     vibrate(50);
+
+    // Send YES to Google Form
     document.getElementById("yesForm").submit();
 
     const secret = document.getElementById("secret");
     secret.textContent = "You just made me the happiest person alive ❤️";
     secret.classList.add("show");
 
+    // Hide message after 5 seconds
     setTimeout(() => {
         secret.classList.remove("show");
     }, 5000);
 
+    // Fade out + go to next2.html
     setTimeout(() => {
         document.body.style.opacity = "0";
-        window.location.href = "next.html"; // 👈 change if needed
+        setTimeout(() => {
+            window.location.href = "next2.html";
+        }, 400);
     }, 5500);
 }
+</script>
 
 /* BACK */
 function goBack() {
@@ -318,3 +326,4 @@ function goBack() {
 
 </body>
 </html>
+

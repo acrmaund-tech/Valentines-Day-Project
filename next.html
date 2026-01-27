@@ -289,13 +289,54 @@ noBtn.addEventListener("touchstart", dodge);
 
 /* YES BUTTON */
 <script>
+const vibrate = ms => navigator.vibrate?.(ms);
+
+/* ELEMENTS */
+const textBox = document.getElementById("textBox");
+const zoomOverlay = document.getElementById("zoomOverlay");
+const zoomImage = document.getElementById("zoomImage");
+const noBtn = document.getElementById("noBtn");
+const noText = document.getElementById("noText");
+const secret = document.getElementById("secret");
+
+/* TEXT AUTO-EXPAND */
+textBox.addEventListener("click", () => {
+    textBox.classList.add("expanded");
+});
+
+/* IMAGE ZOOM */
+document.querySelectorAll(".photo").forEach(photo => {
+    photo.addEventListener("click", () => {
+        zoomImage.style.backgroundImage =
+            getComputedStyle(photo).backgroundImage;
+        zoomOverlay.classList.add("active");
+        vibrate(15);
+    });
+});
+
+zoomOverlay.addEventListener("click", () => {
+    zoomOverlay.classList.remove("active");
+});
+
+/* NO BUTTON DODGE */
+function dodge() {
+    vibrate(30);
+    noBtn.style.transform =
+        `translate(${Math.random()*100-50}px, ${Math.random()*60-30}px)`;
+    noText.classList.add("show");
+    setTimeout(() => noText.classList.remove("show"), 1500);
+}
+
+noBtn.addEventListener("mouseenter", dodge);
+noBtn.addEventListener("touchstart", dodge);
+
+/* YES BUTTON */
 function yesClick() {
     vibrate(50);
 
     // Send YES to Google Form
     document.getElementById("yesForm").submit();
 
-    const secret = document.getElementById("secret");
     secret.textContent = "You just made me the happiest person alive ❤️";
     secret.classList.add("show");
 
@@ -325,5 +366,6 @@ function goBack() {
 
 </body>
 </html>
+
 
 

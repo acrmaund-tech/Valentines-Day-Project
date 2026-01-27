@@ -20,7 +20,7 @@ html, body {
     transition: opacity 0.4s ease;
 }
 
-/* ---------- COLLAGE ---------- */
+/* COLLAGE */
 .collage {
     position: fixed;
     inset: 0;
@@ -29,7 +29,6 @@ html, body {
     gap: 16px;
     padding: 20px;
     padding-bottom: 160px;
-    z-index: 0;
 }
 
 .photo {
@@ -50,108 +49,75 @@ html, body {
 .photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg;}
 .photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg;}
 
-/* ---------- TEXT BOX ---------- */
+/* TEXT BOX */
 .text {
     position: fixed;
     bottom: calc(8px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%);
-    z-index: 4;
-
     width: calc(100vw - 32px);
     max-width: 300px;
-
     padding: 10px 12px;
     border-radius: 12px;
-
     background: rgba(0,0,0,0.65);
     color: white;
     text-align: center;
-
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
     max-height: 90px;
     overflow: hidden;
     transition: max-height 0.5s ease;
-
-    opacity: 0;
-    animation: fadeIn 1.4s ease forwards;
+    animation: fadeIn 1.4s forwards;
 }
 
-.text.expanded {
-    max-height: 220px;
-}
+.text.expanded { max-height: 220px; }
 
 @keyframes fadeIn { to { opacity: 1; } }
 
 .text p {
     font-size: 12px;
     line-height: 1.3;
-    margin: 0 0 8px;
+    margin-bottom: 8px;
 }
 
-/* ---------- BUTTONS ---------- */
+/* BUTTONS */
 .buttons {
     display: flex;
-    justify-content: center;
     gap: 12px;
+    justify-content: center;
 }
 
 button {
     padding: 9px 20px;
-    font-size: 14px;
     border-radius: 999px;
     border: none;
-    cursor: pointer;
     font-weight: 600;
 }
 
 .yes {
-    background: linear-gradient(135deg, #ffb6b6, #ffffff);
-    color: #6b0d0d;
+    background: linear-gradient(135deg, #ffb6b6, #fff);
     animation: pulse 1.6s infinite;
 }
 
 @keyframes pulse {
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.05);}
+    50% { transform: scale(1.05); }
 }
 
-.no {
-    background: rgba(255,255,255,0.9);
-    color: #000;
-}
+.no { background: #fff; }
 
-/* ---------- NO MESSAGE ---------- */
+/* NO MESSAGE */
 .no-text {
     position: fixed;
     bottom: 120px;
     width: 100%;
     text-align: center;
-    font-size: 14px;
     color: #ffb6b6;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s;
 }
 
 .no-text.show { opacity: 1; }
 
-/* ---------- BACK BUTTON ---------- */
-.back-btn {
-    position: fixed;
-    top: calc(16px + env(safe-area-inset-top));
-    left: 16px;
-    z-index: 6;
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.9);
-    font-size: 14px;
-    border: none;
-    font-weight: 600;
-}
-
-/* ---------- IMAGE ZOOM ---------- */
+/* ZOOM */
 .zoom-overlay {
     position: fixed;
     inset: 0;
@@ -159,10 +125,9 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s;
 }
 
 .zoom-overlay.active {
@@ -173,60 +138,39 @@ button {
 .zoom-image {
     width: 90vw;
     height: 80svh;
-    max-width: 500px;
     background-size: contain;
-    background-position: center;
     background-repeat: no-repeat;
     border: 8px solid white;
-    border-radius: 10px;
-    background-color: black;
 }
 
-/* ---------- SECRET ---------- */
+/* SECRET */
 .secret-msg {
     position: fixed;
     inset: 0;
+    background: rgba(0,0,0,0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.85);
-    color: white;
-    font-size: 18px;
-    text-align: center;
-    padding: 20px;
-    z-index: 20;
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s;
 }
 
-.secret-msg.show {
-    opacity: 1;
-    pointer-events: auto;
-}
+.secret-msg.show { opacity: 1; }
 </style>
 </head>
 
 <body>
 
-<button class="back-btn" onclick="goBack()">← Back</button>
-
 <div class="collage">
-    <div class="photo"></div>
-    <div class="photo"></div>
-    <div class="photo"></div>
-    <div class="photo"></div>
-    <div class="photo"></div>
-    <div class="photo"></div>
+    <div class="photo"></div><div class="photo"></div>
+    <div class="photo"></div><div class="photo"></div>
+    <div class="photo"></div><div class="photo"></div>
 </div>
 
 <div class="text" id="textBox">
-    <p>
-        Hi baby, I’m sorry I’ve been so distant lately.
-        You mean the absolute world to me.
-        Will you be my Valentine?
-    </p>
-
+    <p>Hi baby, I’m sorry I’ve been so distant lately.  
+    You mean the absolute world to me.  
+    Will you be my Valentine?</p>
     <div class="buttons">
         <button class="yes" onclick="yesClick()">Yes</button>
         <button class="no" id="noBtn">No</button>
@@ -234,64 +178,19 @@ button {
 </div>
 
 <div class="no-text" id="noText">you’re not allowed to say no buddy 😈</div>
-
-<div class="zoom-overlay" id="zoomOverlay">
-    <div class="zoom-image" id="zoomImage"></div>
-</div>
-
+<div class="zoom-overlay" id="zoomOverlay"><div class="zoom-image" id="zoomImage"></div></div>
 <div class="secret-msg" id="secret"></div>
 
 <form id="yesForm"
-      action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
-      method="POST"
-      target="hidden_iframe">
-    <input type="hidden" name="entry.734142649" value="YES">
+action="https://docs.google.com/forms/d/e/1FAIpQLSfQR4UNVLxzDWuxQXFHlH522nIPWuHsVK7ZHCsBuBGSw9p_tQ/formResponse"
+method="POST" target="hidden_iframe">
+<input type="hidden" name="entry.734142649" value="YES">
 </form>
 <iframe name="hidden_iframe" style="display:none"></iframe>
 
 <script>
 const vibrate = ms => navigator.vibrate?.(ms);
 
-/* TEXT AUTO-EXPAND */
-const textBox = document.getElementById("textBox");
-textBox.addEventListener("click", () => {
-    textBox.classList.add("expanded");
-});
-
-/* IMAGE ZOOM */
-document.querySelectorAll(".photo").forEach(photo => {
-    photo.addEventListener("click", () => {
-        zoomImage.style.backgroundImage =
-            getComputedStyle(photo).backgroundImage;
-        zoomOverlay.classList.add("active");
-        vibrate(15);
-    });
-});
-
-zoomOverlay.addEventListener("click", () => {
-    zoomOverlay.classList.remove("active");
-});
-
-/* NO BUTTON */
-const noBtn = document.getElementById("noBtn");
-const noText = document.getElementById("noText");
-
-function dodge() {
-    vibrate(30);
-    noBtn.style.transform =
-        `translate(${Math.random()*100-50}px, ${Math.random()*60-30}px)`;
-    noText.classList.add("show");
-    setTimeout(() => noText.classList.remove("show"), 1500);
-}
-
-noBtn.addEventListener("mouseenter", dodge);
-noBtn.addEventListener("touchstart", dodge);
-
-/* YES BUTTON */
-<script>
-const vibrate = ms => navigator.vibrate?.(ms);
-
-/* ELEMENTS */
 const textBox = document.getElementById("textBox");
 const zoomOverlay = document.getElementById("zoomOverlay");
 const zoomImage = document.getElementById("zoomImage");
@@ -299,73 +198,38 @@ const noBtn = document.getElementById("noBtn");
 const noText = document.getElementById("noText");
 const secret = document.getElementById("secret");
 
-/* TEXT AUTO-EXPAND */
-textBox.addEventListener("click", () => {
-    textBox.classList.add("expanded");
-});
+textBox.onclick = () => textBox.classList.add("expanded");
 
-/* IMAGE ZOOM */
-document.querySelectorAll(".photo").forEach(photo => {
-    photo.addEventListener("click", () => {
-        zoomImage.style.backgroundImage =
-            getComputedStyle(photo).backgroundImage;
+document.querySelectorAll(".photo").forEach(p => {
+    p.onclick = () => {
+        zoomImage.style.backgroundImage = getComputedStyle(p).backgroundImage;
         zoomOverlay.classList.add("active");
         vibrate(15);
-    });
+    };
 });
 
-zoomOverlay.addEventListener("click", () => {
-    zoomOverlay.classList.remove("active");
-});
+zoomOverlay.onclick = () => zoomOverlay.classList.remove("active");
 
-/* NO BUTTON DODGE */
-function dodge() {
+noBtn.onmouseenter = noBtn.ontouchstart = () => {
     vibrate(30);
-    noBtn.style.transform =
-        `translate(${Math.random()*100-50}px, ${Math.random()*60-30}px)`;
+    noBtn.style.transform = `translate(${Math.random()*80-40}px,${Math.random()*60-30}px)`;
     noText.classList.add("show");
-    setTimeout(() => noText.classList.remove("show"), 1500);
-}
+    setTimeout(()=>noText.classList.remove("show"),1500);
+};
 
-noBtn.addEventListener("mouseenter", dodge);
-noBtn.addEventListener("touchstart", dodge);
-
-/* YES BUTTON */
-function yesClick() {
+function yesClick(){
     vibrate(50);
-
-    // Send YES to Google Form
-    document.getElementById("yesForm").submit();
-
+    yesForm.submit();
     secret.textContent = "You just made me the happiest person alive ❤️";
     secret.classList.add("show");
 
-    // Hide message after 5 seconds
-    setTimeout(() => {
-        secret.classList.remove("show");
-    }, 5000);
-
-    // Fade out + go to next2.html
-    setTimeout(() => {
-        document.body.style.opacity = "0";
-        setTimeout(() => {
-            window.location.href = "next2.html";
-        }, 400);
-    }, 5500);
-}
-
-/* BACK */
-function goBack() {
-    document.body.style.opacity = "0";
-    setTimeout(() => {
-        window.location.href =
-        "https://acrmaund-tech.github.io/Valentines-Day-Project/index%20Holly%20Valentines.html";
-    }, 400);
+    setTimeout(()=>secret.classList.remove("show"),5000);
+    setTimeout(()=>{
+        document.body.style.opacity="0";
+        setTimeout(()=>location.href="next2.html",400);
+    },5500);
 }
 </script>
 
 </body>
 </html>
-
-
-

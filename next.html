@@ -20,7 +20,7 @@ html, body {
     transition: opacity 0.4s ease;
 }
 
-/* COLLAGE */
+/* ---------- COLLAGE ---------- */
 .collage {
     position: fixed;
     inset: 0;
@@ -29,9 +29,12 @@ html, body {
     gap: 16px;
     padding: 20px;
     padding-bottom: 160px;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .photo {
+    pointer-events: auto;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -49,7 +52,7 @@ html, body {
 .photo:nth-child(5){background-image:url("photo5.JPG");--rot:2deg;}
 .photo:nth-child(6){background-image:url("photo6.JPG");--rot:-5deg;}
 
-/* TEXT BOX */
+/* ---------- TEXT BOX ---------- */
 .text {
     position: fixed;
     bottom: calc(8px + env(safe-area-inset-bottom));
@@ -67,6 +70,7 @@ html, body {
     overflow: hidden;
     transition: max-height 0.5s ease;
     animation: fadeIn 1.4s forwards;
+    z-index: 10;
 }
 
 .text.expanded { max-height: 220px; }
@@ -79,7 +83,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* BUTTONS */
+/* ---------- BUTTONS ---------- */
 .buttons {
     display: flex;
     gap: 12px;
@@ -91,6 +95,7 @@ button {
     border-radius: 999px;
     border: none;
     font-weight: 600;
+    cursor: pointer;
 }
 
 .yes {
@@ -104,7 +109,7 @@ button {
 
 .no { background: #fff; }
 
-/* NO MESSAGE */
+/* ---------- NO MESSAGE ---------- */
 .no-text {
     position: fixed;
     bottom: 120px;
@@ -113,11 +118,12 @@ button {
     color: #ffb6b6;
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 10;
 }
 
 .no-text.show { opacity: 1; }
 
-/* ZOOM */
+/* ---------- IMAGE ZOOM ---------- */
 .zoom-overlay {
     position: fixed;
     inset: 0;
@@ -128,6 +134,7 @@ button {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
+    z-index: 20;
 }
 
 .zoom-overlay.active {
@@ -139,11 +146,12 @@ button {
     width: 90vw;
     height: 80svh;
     background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
     border: 8px solid white;
 }
 
-/* SECRET */
+/* ---------- SECRET ---------- */
 .secret-msg {
     position: fixed;
     inset: 0;
@@ -153,6 +161,7 @@ button {
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 30;
 }
 
 .secret-msg.show { opacity: 1; }
@@ -168,17 +177,21 @@ button {
 </div>
 
 <div class="text" id="textBox">
-    <p>Hi baby, I’m sorry I’ve been so distant lately.  
-    You mean the absolute world to me.  
-    Will you be my Valentine?</p>
+    <p>
+        Hi baby, I’m sorry I’ve been so distant lately.
+        You mean the absolute world to me.
+        Will you be my Valentine?
+    </p>
     <div class="buttons">
-        <button class="yes" onclick="yesClick()">Yes</button>
+        <button class="yes" id="yesBtn">Yes</button>
         <button class="no" id="noBtn">No</button>
     </div>
 </div>
 
 <div class="no-text" id="noText">you’re not allowed to say no buddy 😈</div>
-<div class="zoom-overlay" id="zoomOverlay"><div class="zoom-image" id="zoomImage"></div></div>
+<div class="zoom-overlay" id="zoomOverlay">
+    <div class="zoom-image" id="zoomImage"></div>
+</div>
 <div class="secret-msg" id="secret"></div>
 
 <form id="yesForm"
@@ -200,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const noText = document.getElementById("noText");
     const secret = document.getElementById("secret");
     const yesForm = document.getElementById("yesForm");
+    const yesBtn = document.getElementById("yesBtn");
 
     /* TEXT EXPAND */
     textBox.addEventListener("click", () => {
@@ -220,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         zoomOverlay.classList.remove("active");
     });
 
-    /* NO BUTTON DODGE */
+    /* NO BUTTON */
     function dodge() {
         vibrate(30);
         noBtn.style.transform =
@@ -233,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.addEventListener("touchstart", dodge);
 
     /* YES BUTTON */
-    window.yesClick = function () {
+    yesBtn.addEventListener("click", () => {
         vibrate(50);
         yesForm.submit();
 
@@ -250,11 +264,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "next2.html";
             }, 400);
         }, 5500);
-    };
+    });
 
 });
 </script>
 
 </body>
 </html>
-

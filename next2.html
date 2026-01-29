@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>MY VALENTINE</title>
+    <title>Our Love</title>
 
     <style>
         * {
@@ -31,22 +31,55 @@
             transition: background-image 1.2s ease-in-out;
         }
 
+        /* back button */
+        .back-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            border: 1px solid rgba(255,182,193,0.4);
+            box-shadow: 0 0 10px rgba(255,105,180,0.3);
+            z-index: 10;
+        }
+
+        .back-btn:active {
+            transform: scale(0.96);
+        }
+
         .text-box {
             margin: 16px;
             background: rgba(0, 0, 0, 0.65);
-            padding: 18px;
+            padding: 18px 20px;
             max-width: 92vw;
-            max-height: 70svh;   /* prevents screen takeover */
-            overflow-y: auto;    /* scroll if needed */
-            border-radius: 16px;
-            font-size: 14px;     /* smaller text */
+            max-height: 70svh;
+            overflow-y: auto;
+            border-radius: 18px;
+            font-size: 14px;
             line-height: 1.6;
             color: white;
-            box-shadow: 0 0 16px rgba(255, 105, 180, 0.3);
-            border: 1px solid rgba(255,182,193,0.3);
+            box-shadow: 0 0 16px rgba(255, 105, 180, 0.35);
+            border: 1px solid rgba(255,182,193,0.35);
+            position: relative;
         }
 
-        /* smooth scrolling on iOS */
+        /* hearts */
+        .heart {
+            position: absolute;
+            font-size: 14px;
+            color: pink;
+            opacity: 0.85;
+        }
+
+        .heart.top-left { top: 8px; left: 10px; }
+        .heart.top-right { top: 8px; right: 10px; }
+        .heart.bottom-left { bottom: 8px; left: 10px; }
+        .heart.bottom-right { bottom: 8px; right: 10px; }
+
         .text-box {
             -webkit-overflow-scrolling: touch;
         }
@@ -55,7 +88,15 @@
 
 <body>
 
+    <!-- back button -->
+    <a href="next.html" class="back-btn">← Back</a>
+
     <div class="text-box">
+        <div class="heart top-left">💗</div>
+        <div class="heart top-right">💗</div>
+        <div class="heart bottom-left">💗</div>
+        <div class="heart bottom-right">💗</div>
+
         Hi baby, I love you so fricking much. You mean the whole world to me. I don’t know what I could do without you. I couldn’t imagine what my life would be like without you. I know this month has been hard for the both of us, and you’ve been overthinking so much, and so have I. I want you to know I’m never going to leave you, baby. You’re my soulmate after all. Happy 4 months, my love. A third of a year is crazy. It’s felt like I’ve known you for years. Every single day I am with you makes me happier than ever, and we will get through anything together. We will make it, baby. I love you sososososososososososososo much.
     </div>
 
@@ -84,4 +125,3 @@
 
 </body>
 </html>
-

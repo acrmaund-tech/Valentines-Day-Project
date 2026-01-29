@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Our Love</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Georgia, serif;
+            background-color: black;
+        }
+
+        body {
+            min-height: 100svh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            transition: background-image 1.2s ease-in-out;
+        }
+
+        .text-box {
+            margin: 16px;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 18px;
+            max-width: 92vw;
+            max-height: 70svh;   /* prevents screen takeover */
+            overflow-y: auto;    /* scroll if needed */
+            border-radius: 16px;
+            font-size: 14px;     /* smaller text */
+            line-height: 1.6;
+            color: white;
+            box-shadow: 0 0 16px rgba(255, 105, 180, 0.3);
+            border: 1px solid rgba(255,182,193,0.3);
+        }
+
+        /* smooth scrolling on iOS */
+        .text-box {
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="text-box">
+        Hi baby, I love you so fricking much. You mean the whole world to me. I don’t know what I could do without you. I couldn’t imagine what my life would be like without you. I know this month has been hard for the both of us, and you’ve been overthinking so much, and so have I. I want you to know I’m never going to leave you, baby. You’re my soulmate after all. Happy 4 months, my love. A third of a year is crazy. It’s felt like I’ve known you for years. Every single day I am with you makes me happier than ever, and we will get through anything together. We will make it, baby. I love you sososososososososososososo much.
+    </div>
+
+    <script>
+        const photos = [
+            "photo1.JPG",
+            "photo2.JPG",
+            "photo6.JPG",
+            "photo7.JPG",
+            "photo8.JPG",
+            "photo9.JPG",
+            "photo10.JPG",
+            "photo11.JPG"
+        ];
+
+        let index = 0;
+
+        function changeBackground() {
+            document.body.style.backgroundImage = `url('${photos[index]}')`;
+            index = (index + 1) % photos.length;
+        }
+
+        changeBackground();
+        setInterval(changeBackground, 4500);
+    </script>
+
+</body>
+</html>
